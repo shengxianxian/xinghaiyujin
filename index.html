@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#080d13" />
+    <title>VOID RUNNER - 星海余烬</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="game" aria-label="VOID RUNNER 游戏画面"></canvas
+      ><audio
+        id="bgm"
+        src="assets/audio/we-never.mp3"
+        preload="auto"
+        loop
+      ></audio
+      ><audio id="songAudio" preload="auto"></audio>
+      <div class="grain"></div>
+      <div class="hud">
+        <div class="top">
+          <div class="brand">
+            <div class="mark"><span>V</span></div>
+            <div>
+              <div class="brand-name">VOID RUNNER</div>
+              <div class="brand-sub">深空回收计划 / SECTOR 09</div>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-label">分数</div>
+              <div class="stat-value amber" id="score">000000</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">击破</div>
+              <div class="stat-value" id="kills">00</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">最高纪录</div>
+              <div class="stat-value mint" id="best">000000</div>
+            </div>
+          </div>
+          <div class="right-top">
+            <button
+              class="icon-btn"
+              id="musicBtn"
+              aria-label="切换背景音乐"
+              title="背景音乐：开"
+              style="color: var(--mint)"
+            >
+              ♪</button
+            ><button
+              class="icon-btn"
+              id="soundBtn"
+              aria-label="切换音效"
+              title="游戏音效"
+            >
+              ♫</button
+            ><button
+              class="icon-btn"
+              id="pauseBtn"
+              aria-label="暂停"
+              title="暂停"
+            >
+              Ⅱ
+            </button>
+          </div>
+        </div>
+        <div class="bottom">
+          <div class="health-wrap">
+            <div class="micro-label">
+              <span>船体完整度</span><span id="hpText">100%</span>
+            </div>
+            <div class="bar"><i id="hpBar"></i></div>
+          </div>
+          <div class="xp-wrap">
+            <div class="micro-label">
+              <span class="level" id="levelText">LV.01</span
+              ><span id="xpText">能量碎片 0 / 8</span>
+            </div>
+            <div class="xpbar"><i id="xpBar"></i></div>
+          </div>
+          <div class="loadout-hud">
+            <div class="loadout-label">当前构筑</div>
+            <div class="loadout-name" id="weaponHud">脉冲炮 · Lv.01</div>
+            <div class="loadout-sub" id="buddyHud">暂无跟班</div>
+          </div>
+          <div class="wavebox">
+            <div class="wave" id="waveText">
+              第 01 波<small id="waveSub">威胁正在接近</small>
+            </div>
+          </div>
+          <div class="hint">
+            <span class="key">WASD</span> 移动　<span class="key">鼠标</span>
+            瞄准射击<br /><span class="key">SHIFT</span> 冲刺　<span class="key"
+              >ESC</span
+            >
+            暂停
+          </div>
+        </div>
+      </div>
+      <div class="boss-hud hidden" id="bossHud">
+        <div class="micro-label">
+          <span>ELITE // 深空收割者</span><span id="bossHpText">100%</span>
+        </div>
+        <div class="boss-bar"><i id="bossHpBar"></i></div>
+      </div>
+      <div class="combo-hud hidden" id="comboHud">连击 ×3</div>
+      <div class="song-now hidden" id="songNow">♫ 歌曲片段播放中</div>
+      <div id="toast" class="toast"></div>
+      <div class="mobile-controls" id="mobileControls">
+        <div class="stick" id="stick"></div>
+        <button class="touch-dash" id="dashTouch">冲刺</button
+        ><button class="touch-fire" id="fireTouch">开火</button>
+      </div>
+      <section class="shade" id="startScreen">
+        <div class="panel">
+          <div class="eyebrow">信号接入中 // PILOT 07</div>
+          <h1 class="title">VOID<br /><em>RUNNER</em></h1>
+          <div class="lede">
+            最后一艘回收船被困在无人星区。清理逼近的异形舰群，收集能量碎片。每三波迎战一次精英舰，还要留意随机陨石雨和携带真实副歌片段的歌曲怪物。
+          </div>
+          <div class="divider"></div>
+          <div class="controls">
+            <div class="control"><span class="keys">W A S D</span>移动飞船</div>
+            <div class="control">
+              <span class="keys">鼠标 / 点击</span>瞄准并射击
+            </div>
+            <div class="control"><span class="keys">SHIFT</span>相位冲刺</div>
+            <div class="control"><span class="keys">ESC</span>暂停战斗</div>
+          </div>
+          <button class="primary" id="startBtn">开始回收任务　↗</button>
+          <div class="footnote">
+            触屏设备：左侧移动 · 右侧持续射击 · 上方冲刺
+          </div>
+        </div>
+      </section>
+      <section class="shade hidden" id="upgradeScreen">
+        <div class="panel upgrade-panel">
+          <div class="corner" id="upgradeCount">选择 1 项强化</div>
+          <div class="eyebrow">SYSTEM EVOLUTION // LEVEL UP</div>
+          <h2 class="title">选择你的<br /><em>进化方向</em></h2>
+          <div class="upgrade-grid" id="upgradeGrid"></div>
+        </div>
+      </section>
+      <section class="shade hidden" id="pauseScreen">
+        <div class="panel">
+          <div class="eyebrow">驾驶舱待机中</div>
+          <h2 class="title">暂时<br /><em>安全</em></h2>
+          <div class="lede">星区威胁已冻结。准备好了就继续任务。</div>
+          <button class="primary" id="resumeBtn">继续任务　↗</button>
+          <div class="footnote">按 ESC 也可以继续</div>
+        </div>
+      </section>
+      <section class="shade hidden" id="gameOverScreen">
+        <div class="panel game-over-panel">
+          <div class="eyebrow">信号丢失 // MISSION ENDED</div>
+          <h2 class="title">任务<br /><em>终止</em></h2>
+          <div class="lede" id="endStats">
+            你在星区坚持了 00:00，击破 0 艘敌舰。
+          </div>
+          <div class="death-epilogue hidden" id="deathEpilogue">
+            <div class="epilogue-mark" aria-hidden="true"><span>✦</span></div>
+            <div class="epilogue-kicker">30,000 // 星海征途纪念</div>
+            <h3>每一次坚持<br /><em>都让你更接近传奇</em></h3>
+            <p>
+              人生从来不是一帆风顺。你穿越风暴、扛过低谷，仍然一路向前。<br />
+              这一程的努力，值得一场盛大的庆贺。愿你带着勇气，再次启程。
+            </p>
+            <div class="epilogue-ribbon"><i></i><span>双帝之战 · 庆祝时刻</span><i></i></div>
+          </div>
+          <div class="divider"></div>
+          <div class="stats" style="justify-content: flex-start">
+            <div class="stat">
+              <div class="stat-label">本次得分</div>
+              <div class="stat-value amber" id="finalScore">000000</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">最高纪录</div>
+              <div class="stat-value mint" id="finalBest">000000</div>
+            </div>
+          </div>
+          <button class="primary hidden" id="deathCelebrateBtn">
+            开启庆祝影像　▶
+          </button>
+          <button class="primary" id="againBtn">再玩一局　↗</button>
+          <div class="footnote">每次星区、敌群与强化都会重新生成</div>
+        </div>
+      </section>
+      <section class="shade hidden" id="scoreChoiceScreen">
+        <div class="panel score-choice-panel">
+          <div class="eyebrow">150,000 // FINAL TRANSMISSION</div>
+          <h2 class="title">恭喜你<br /><em>你已通关</em></h2>
+          <div class="lede">
+            你的分数已经达到 150,000。恭喜你，你已通关。请选择接下来的行动。
+          </div>
+          <button class="primary secondary" id="continueAt150kBtn">
+            继续游戏　→
+          </button>
+          <button class="primary secondary" id="claimVictoryBtn">
+            观看庆祝萧炎双帝之战　▶
+          </button>
+          <button class="primary secondary" id="newGameAt150kBtn">
+            再来一局　↗
+          </button>
+        </div>
+      </section>
+      <section class="shade hidden victory-fullscreen" id="victoryScreen">
+        <video
+          id="victoryVideo"
+          class="victory-video"
+          src="assets/video/xiaoyan-compatible.mp4"
+          preload="metadata"
+          playsinline
+          controls
+        ></video>
+        <div class="victory-overlay">
+          <div class="eyebrow" id="victoryEyebrow">
+            双帝之战 // VICTORY TRANSMISSION
+          </div>
+          <h2 class="title" id="victoryTitle">
+            勇士，恭喜你<br /><em>达到 30,000 分</em>
+          </h2>
+          <div class="victory-message" id="victoryMessage">
+            让我们一起为双帝之战庆贺。
+          </div>
+          <div class="victory-actions hidden" id="victoryActions">
+            <button class="primary" id="replayVictoryBtn">重播视频　↻</button>
+            <button class="primary secondary" id="playAgainVictoryBtn">
+              再玩一次　↗
+            </button>
+          </div>
+          <div class="victory-actions hidden" id="milestoneActions">
+            <button class="primary" id="continueAfterVideoBtn">
+              返回战斗　→
+            </button>
+          </div>
+          <div class="footnote" id="victoryHint">庆祝视频播放中</div>
+        </div>
+        <pre class="video-debug" id="videoDebug" aria-live="polite"></pre>
+      </section>
+    </main>
+    <script src="js/game.js"></script>
+  </body>
+</html>

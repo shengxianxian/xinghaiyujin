@@ -1,0 +1,909 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap");
+:root {
+  color-scheme: dark;
+  --bg: #080d13;
+  --panel: #101a22;
+  --line: #25353c;
+  --mint: #70f0c0;
+  --cyan: #64d9ef;
+  --amber: #ffc46b;
+  --red: #ff6477;
+  --text: #e9f5f0;
+  --muted: #8ca19e;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: "Noto Sans SC", sans-serif;
+  color: var(--text);
+}
+button {
+  font: inherit;
+  color: inherit;
+}
+#app {
+  height: 100%;
+  position: relative;
+  isolation: isolate;
+  background: radial-gradient(
+    ellipse at 50% 44%,
+    #16242a 0%,
+    #0a1118 53%,
+    #070b10 100%
+  );
+}
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.12;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+}
+.hud {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  padding: clamp(14px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mark {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #70f0c077;
+  color: var(--mint);
+  display: grid;
+  place-items: center;
+  transform: rotate(45deg);
+  font: 800 19px "Barlow Condensed";
+  box-shadow: 0 0 22px #70f0c022;
+}
+.mark span {
+  transform: rotate(-45deg);
+}
+.brand-name {
+  font: 800 19px "Barlow Condensed";
+  letter-spacing: 2px;
+}
+.brand-sub {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+.stats {
+  display: flex;
+  gap: 8px;
+}
+.stat {
+  background: #0b1218d9;
+  border: 1px solid #294047;
+  padding: 8px 13px;
+  min-width: 88px;
+}
+.stat-label {
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  color: var(--muted);
+}
+.stat-value {
+  font: 700 20px "Barlow Condensed";
+  margin-top: 2px;
+}
+.stat-value.mint {
+  color: var(--mint);
+}
+.stat-value.amber {
+  color: var(--amber);
+}
+.right-top {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  pointer-events: auto;
+}
+.icon-btn {
+  height: 38px;
+  width: 38px;
+  border: 1px solid #294047;
+  background: #0b1218d9;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: #c6d6d2;
+  font-size: 15px;
+}
+.icon-btn:hover {
+  border-color: var(--mint);
+  color: var(--mint);
+}
+.bottom {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(200px, 420px) minmax(
+      120px,
+      1fr
+    );
+  align-items: end;
+  gap: 20px;
+}
+.health-wrap {
+  max-width: 250px;
+}
+.micro-label {
+  font: 600 10px "Barlow Condensed";
+  letter-spacing: 1.8px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+.bar {
+  height: 5px;
+  background: #1b2a30;
+  overflow: hidden;
+}
+.bar > i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--mint);
+  box-shadow: 0 0 12px #70f0c077;
+  transition: width 0.2s;
+}
+.xp-wrap {
+  width: 100%;
+  max-width: 420px;
+  justify-self: center;
+}
+.xpbar {
+  height: 4px;
+  background: #1b2a30;
+}
+.xpbar > i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--cyan);
+  box-shadow: 0 0 10px #64d9ef99;
+  transition: width 0.2s;
+}
+.level {
+  font: 700 12px "Barlow Condensed";
+  letter-spacing: 1px;
+  color: var(--cyan);
+}
+.wavebox {
+  text-align: right;
+}
+.loadout-hud {
+  min-width: 155px;
+  max-width: 210px;
+  border: 1px solid #294047;
+  background: #0b1218d9;
+  padding: 6px 10px;
+  align-self: end;
+}
+.loadout-label {
+  font: 600 9px "Barlow Condensed";
+  letter-spacing: 1.5px;
+  color: var(--muted);
+}
+.loadout-name {
+  font: 700 12px "Noto Sans SC";
+  color: var(--mint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.loadout-sub {
+  font: 500 9px "Noto Sans SC";
+  color: #a9c0bb;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wave {
+  font: 800 24px "Barlow Condensed";
+  letter-spacing: 1px;
+}
+.wave small {
+  font: 500 10px "Noto Sans SC";
+  color: var(--muted);
+  display: block;
+  letter-spacing: 1px;
+}
+.hint {
+  justify-self: end;
+  font-size: 10px;
+  color: #78908d;
+  line-height: 1.9;
+  text-align: right;
+}
+.key {
+  border: 1px solid #3c5256;
+  padding: 2px 5px;
+  color: #b5c8c2;
+  font: 10px "Barlow Condensed";
+}
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: #050a0ed9;
+  backdrop-filter: blur(7px);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+.panel {
+  width: min(530px, 100%);
+  border: 1px solid #34504e;
+  background: linear-gradient(145deg, #101c21f5, #0b1218f5);
+  padding: clamp(25px, 5vw, 44px);
+  position: relative;
+  box-shadow: 0 24px 100px #0009;
+}
+.panel:before,
+.panel:after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--mint);
+  border-style: solid;
+}
+.panel:before {
+  left: -1px;
+  top: -1px;
+  border-width: 1px 0 0 1px;
+}
+.panel:after {
+  right: -1px;
+  bottom: -1px;
+  border-width: 0 1px 1px 0;
+}
+.game-over-panel.has-epilogue,
+#gameOverScreen.has-epilogue .game-over-panel {
+  width: min(650px, 100%);
+  overflow: hidden;
+  border-color: #876b4e;
+  background:
+    radial-gradient(ellipse at 50% 22%, #80552f55, transparent 46%),
+    radial-gradient(ellipse at 88% 80%, #286f7270, transparent 44%),
+    linear-gradient(145deg, #171d22f7, #0b1118fa 72%);
+  box-shadow: 0 24px 100px #000b, 0 0 42px #e3a8561c;
+}
+#gameOverScreen.has-epilogue .game-over-panel > * {
+  position: relative;
+  z-index: 1;
+}
+#gameOverScreen.has-epilogue .game-over-panel > .eyebrow,
+#gameOverScreen.has-epilogue .game-over-panel > .title,
+#gameOverScreen.has-epilogue .game-over-panel > #endStats {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+#gameOverScreen.has-epilogue .game-over-panel > .title { font-size: 48px; }
+#gameOverScreen.has-epilogue .game-over-panel > #endStats {
+  max-width: 440px;
+  color: #d1d8d7;
+}
+.death-epilogue {
+  position: relative;
+  margin: 23px -8px 6px;
+  padding: 18px 18px 16px;
+  overflow: hidden;
+  border-top: 1px solid #e8bf7c55;
+  border-bottom: 1px solid #7cdbd055;
+  background: linear-gradient(100deg, #16191dcc, #162325b8 54%, #16191dcc);
+  text-align: center;
+}
+.death-epilogue:before,
+.death-epilogue:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 48px;
+  width: 260px;
+  aspect-ratio: 1;
+  border: 1px solid #ffc46b20;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.death-epilogue:after { width: 330px; border-color: #70f0c014; }
+.epilogue-mark {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 11px;
+  color: #ffe1a8;
+  border: 1px solid #ffc46b88;
+  background: linear-gradient(145deg, #594429, #173039);
+  box-shadow: 0 0 28px #ffc46b33, inset 0 0 15px #70f0c022;
+  transform: rotate(45deg);
+}
+.epilogue-mark span { font-size: 24px; transform: rotate(-45deg); text-shadow: 0 0 14px #ffd887; }
+.epilogue-kicker,
+.epilogue-ribbon {
+  position: relative;
+  z-index: 1;
+  color: #ffc46b;
+  font: 700 10px "Barlow Condensed", "Noto Sans SC", sans-serif;
+}
+.death-epilogue h3 {
+  position: relative;
+  z-index: 1;
+  margin: 8px 0 7px;
+  color: #f4f5ee;
+  font-size: clamp(21px, 4vw, 29px);
+  line-height: 1.35;
+}
+.death-epilogue h3 em { color: var(--mint); font-style: normal; text-shadow: 0 0 22px #70f0c044; }
+.death-epilogue p { position: relative; z-index: 1; margin: 0 auto; max-width: 470px; color: #bac9c7; font-size: 12px; line-height: 1.9; }
+.epilogue-ribbon { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 13px; color: #d7e5df; }
+.epilogue-ribbon i { width: 46px; height: 1px; background: linear-gradient(90deg, transparent, #ffc46b99); }
+.epilogue-ribbon i:last-child { transform: rotate(180deg); }
+#gameOverScreen.has-epilogue #deathCelebrateBtn {
+  margin-top: 14px;
+  color: #1b1309;
+  background: linear-gradient(100deg, #f4c875, #8ee8cd 52%, #f4c875);
+  box-shadow: 0 0 25px #ffc46b2f;
+}
+#gameOverScreen.has-epilogue #againBtn { margin-top: 10px; }
+.eyebrow {
+  font: 600 10px "Barlow Condensed";
+  color: var(--mint);
+  letter-spacing: 3px;
+}
+.title {
+  font: 900 clamp(48px, 11vw, 82px) / 0.9 "Barlow Condensed";
+  letter-spacing: 1px;
+  margin: 13px 0 12px;
+}
+.title em {
+  color: var(--mint);
+  font-style: normal;
+}
+.lede {
+  color: #a7bab5;
+  font-size: 13px;
+  line-height: 1.9;
+  max-width: 390px;
+}
+.divider {
+  height: 1px;
+  background: #26383d;
+  margin: 23px 0;
+}
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px 22px;
+  color: #9eb1ac;
+  font-size: 11px;
+}
+.control {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.keys {
+  color: var(--text);
+  font: 600 10px "Barlow Condensed";
+  border: 1px solid #42585a;
+  padding: 4px 7px;
+  min-width: 42px;
+  text-align: center;
+}
+.primary {
+  margin-top: 27px;
+  width: 100%;
+  padding: 15px;
+  background: var(--mint);
+  color: #07140f;
+  border: 0;
+  font: 800 16px "Barlow Condensed";
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    filter 0.15s;
+}
+.primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+.footnote {
+  margin-top: 12px;
+  color: #708681;
+  font-size: 10px;
+  text-align: center;
+}
+.hidden {
+  display: none !important;
+}
+.upgrade-panel {
+  width: min(600px, 100%);
+  padding: 30px;
+}
+.upgrade-panel .title {
+  font-size: 40px;
+}
+.upgrade-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+.upgrade {
+  border: 1px solid #33494b;
+  background: #0b1419;
+  text-align: left;
+  padding: 12px 11px;
+  cursor: pointer;
+  min-height: 118px;
+  transition: 0.15s;
+}
+.upgrade:hover {
+  border-color: var(--mint);
+  background: #11201e;
+  transform: translateY(-3px);
+}
+.upgrade-icon {
+  font: 700 19px "Barlow Condensed";
+  color: var(--mint);
+  margin-bottom: 12px;
+}
+.upgrade-name {
+  font-weight: 700;
+  font-size: 12px;
+}
+.upgrade-desc {
+  font-size: 9px;
+  color: #8ea39d;
+  margin-top: 5px;
+  line-height: 1.55;
+}
+.corner {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  color: #617773;
+  font: 10px "Barlow Condensed";
+  letter-spacing: 1px;
+}
+.toast {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  z-index: 3;
+  transform: translate(-50%, -10px);
+  opacity: 0;
+  transition: 0.35s;
+  pointer-events: none;
+  background: #0d191ddf;
+  border: 1px solid #385252;
+  color: var(--mint);
+  padding: 9px 18px;
+  font: 600 12px "Barlow Condensed";
+  letter-spacing: 1.5px;
+}
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.boss-hud {
+  position: absolute;
+  z-index: 2;
+  top: 82px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(360px, 62vw);
+  pointer-events: none;
+  text-align: center;
+}
+.boss-hud .micro-label {
+  color: #ffc46b;
+}
+.boss-bar {
+  height: 6px;
+  background: #321d1d;
+  border: 1px solid #854653;
+}
+.boss-bar i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #ff6477, #ffc46b);
+  box-shadow: 0 0 12px #ff647788;
+  transition: width 0.15s;
+}
+.combo-hud {
+  position: absolute;
+  left: 50%;
+  top: 120px;
+  transform: translateX(-50%);
+  color: var(--amber);
+  font: 800 13px "Barlow Condensed";
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px #ffc46b88;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.song-now {
+  position: absolute;
+  z-index: 2;
+  top: 144px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  border: 1px solid #d78cff66;
+  background: #10101be0;
+  color: #f3d8ff;
+  font: 600 11px "Noto Sans SC";
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 18px #d78cff22;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.victory-message {
+  color: var(--amber);
+  font-size: 15px;
+  line-height: 1.8;
+  margin: 8px 0 0;
+}
+.victory-actions {
+  display: flex;
+  gap: 10px;
+}
+.victory-actions .primary {
+  margin-top: 0;
+}
+.secondary {
+  background: #142127;
+  color: var(--mint);
+  border: 1px solid #3b605d;
+}
+.secondary:hover {
+  background: #1c302e;
+}
+.mobile-controls {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.stick {
+  position: absolute;
+  left: 24px;
+  bottom: 70px;
+  width: 120px;
+  height: 120px;
+  border: 1px solid #97c4bd55;
+  border-radius: 50%;
+  background: #10201d44;
+  pointer-events: auto;
+  touch-action: none;
+}
+.stick:after {
+  content: "";
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  left: 38px;
+  top: 38px;
+  border: 1px solid #a5d5c688;
+  border-radius: 50%;
+  background: #70f0c022;
+}
+.touch-fire {
+  position: absolute;
+  right: 26px;
+  bottom: 76px;
+  width: 76px;
+  height: 76px;
+  border: 1px solid #70f0c088;
+  background: #70f0c022;
+  border-radius: 50%;
+  pointer-events: auto;
+  color: var(--mint);
+  font: 700 11px "Barlow Condensed";
+  letter-spacing: 1px;
+  touch-action: none;
+}
+.touch-dash {
+  position: absolute;
+  right: 48px;
+  bottom: 168px;
+  width: 52px;
+  height: 52px;
+  border: 1px solid #ffc46b88;
+  background: #ffc46b22;
+  border-radius: 50%;
+  pointer-events: auto;
+  color: var(--amber);
+  font: 700 10px "Barlow Condensed";
+  touch-action: none;
+}
+@media (max-width: 650px) {
+  .hud {
+    padding: 13px;
+  }
+  .brand-sub {
+    display: none;
+  }
+  .mark {
+    width: 30px;
+    height: 30px;
+  }
+  .brand-name {
+    font-size: 15px;
+  }
+  .stats {
+    gap: 5px;
+  }
+  .stat {
+    padding: 6px 8px;
+    min-width: 58px;
+  }
+  .stat-label {
+    font-size: 8px;
+  }
+  .stat-value {
+    font-size: 17px;
+  }
+  .top {
+    gap: 5px;
+  }
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .right-top {
+    gap: 5px;
+  }
+  .bottom {
+    grid-template-columns: 1fr 1.3fr 1fr;
+    gap: 9px;
+  }
+  .hint {
+    display: none;
+  }
+  .wave {
+    font-size: 20px;
+  }
+  .micro-label {
+    font-size: 9px;
+  }
+  .upgrade-grid {
+    grid-template-columns: 1fr;
+  }
+  .upgrade {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    column-gap: 7px;
+    padding: 10px 12px;
+  }
+  .upgrade-icon {
+    grid-row: span 2;
+    margin: 0;
+    font-size: 19px;
+  }
+  .upgrade-name {
+    font-size: 12px;
+  }
+  .upgrade-desc {
+    margin-top: 3px;
+  }
+  .upgrade-panel {
+    padding: 23px;
+  }
+  .upgrade-panel .title {
+    font-size: 39px;
+  }
+  .controls {
+    font-size: 10px;
+    gap: 9px;
+  }
+  .mobile-controls {
+    display: block;
+  }
+  .shade {
+    padding: 13px;
+  }
+  .panel {
+    padding: 25px;
+  }
+  .title {
+    font-size: 60px;
+  }
+  .stats .stat:nth-child(3) {
+    display: none;
+  }
+  .boss-hud {
+    top: 66px;
+    width: 70vw;
+  }
+  .combo-hud {
+    top: 101px;
+  }
+}
+
+.score-choice-panel {
+  width: min(560px, 100%);
+}
+.score-choice-panel .primary {
+  margin-top: 14px;
+}
+#victoryScreen.victory-fullscreen.shade {
+  z-index: 10;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+  backdrop-filter: none;
+}
+#victoryVideo.victory-video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: contain;
+  border: 0;
+  margin: 0;
+  background: #000;
+  z-index: 0;
+}
+.victory-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: max(28px, env(safe-area-inset-top)) 18px 72px;
+  background: linear-gradient(
+    180deg,
+    #050a10b8 0%,
+    transparent 34%,
+    transparent 62%,
+    #050a10b8 100%
+  );
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+}
+.video-debug {
+  position: absolute;
+  z-index: 2;
+  left: 12px;
+  bottom: 12px;
+  margin: 0;
+  padding: 7px 9px;
+  max-width: min(94vw, 520px);
+  color: #9de9c8;
+  background: #050a10cc;
+  border: 1px solid #70f0c055;
+  font: 10px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace;
+  pointer-events: none;
+}
+.victory-overlay > * {
+  pointer-events: auto;
+}
+.victory-overlay .title {
+  margin: 10px 0;
+  font-size: 52px;
+  line-height: 1.08;
+}
+.victory-overlay .victory-message {
+  font-size: clamp(13px, 2vw, 18px);
+}
+.victory-overlay .victory-actions {
+  width: min(540px, 100%);
+  gap: 10px;
+  margin-top: auto;
+  margin-bottom: 16px;
+}
+.victory-overlay .victory-actions .primary {
+  flex: 1;
+  margin-top: 0;
+}
+.victory-overlay .footnote {
+  color: #d0ddd9;
+  text-shadow: 0 1px 4px #000;
+}
+@media (max-width: 650px) {
+  .score-choice-panel {
+    padding: 24px;
+  }
+  .victory-overlay {
+    padding: 22px 12px max(62px, env(safe-area-inset-bottom));
+  }
+  .victory-overlay .title {
+    margin: 8px 0;
+    font-size: 36px;
+    line-height: 1.15;
+  }
+  .victory-overlay .victory-message {
+    max-width: 330px;
+  }
+  .victory-overlay .victory-actions {
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 8px;
+  }
+  .victory-overlay .victory-actions .primary {
+    padding: 12px;
+  }
+}
+@media (hover: none) {
+  .hint {
+    display: none;
+  }
+}
+@media (max-width: 650px) {
+  .brand {
+    gap: 7px;
+  }
+  .mark {
+    width: 27px;
+    height: 27px;
+  }
+  .brand-name {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .stats {
+    gap: 3px;
+  }
+  .stat {
+    padding: 5px 6px;
+    min-width: 48px;
+  }
+  .stat-value {
+    font-size: 15px;
+  }
+  .right-top {
+    gap: 3px;
+  }
+  .icon-btn {
+    width: 28px;
+    height: 32px;
+  }
+}

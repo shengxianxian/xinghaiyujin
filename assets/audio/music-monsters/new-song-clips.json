@@ -1,0 +1,175 @@
+[
+  {
+    "name": "tanya-letting-go",
+    "file": "music-monsters/tanya-letting-go.mp3",
+    "start": 118,
+    "duration": 20,
+    "sourceDuration": 263.45
+  },
+  {
+    "name": "hejie-ni-shi-wo-de-feng-jing",
+    "file": "music-monsters/hejie-ni-shi-wo-de-feng-jing.mp3",
+    "start": 60,
+    "duration": 20,
+    "sourceDuration": 249.49
+  },
+  {
+    "name": "zhangyunjing-pian-ai",
+    "file": "music-monsters/zhangyunjing-pian-ai.mp3",
+    "start": 56,
+    "duration": 20,
+    "sourceDuration": 212.91
+  },
+  {
+    "name": "jay-lan-ting-xu",
+    "file": "music-monsters/jay-lan-ting-xu.mp3",
+    "start": 82,
+    "duration": 20,
+    "sourceDuration": 253.96
+  },
+  {
+    "name": "feilunhai-tian-fu-zhen-zhi-dui-ni-you-gan-jue",
+    "file": "music-monsters/feilunhai-tian-fu-zhen-zhi-dui-ni-you-gan-jue.mp3",
+    "start": 72,
+    "duration": 20,
+    "sourceDuration": 239.0
+  },
+  {
+    "name": "jay-gao-bai-qi-qiu",
+    "file": "music-monsters/jay-gao-bai-qi-qiu.mp3",
+    "start": 55,
+    "duration": 20,
+    "sourceDuration": 215.59
+  },
+  {
+    "name": "wangsulong-danyichun-ru-guo-ai-wang-le",
+    "file": "music-monsters/wangsulong-danyichun-ru-guo-ai-wang-le.mp3",
+    "start": 102,
+    "duration": 20,
+    "sourceDuration": 245.39
+  },
+  {
+    "name": "xiaomi-wo-zou-hou",
+    "file": "music-monsters/xiaomi-wo-zou-hou.mp3",
+    "start": 102,
+    "duration": 20,
+    "sourceDuration": 263.97
+  },
+  {
+    "name": "caiyilin-ri-bu-luo",
+    "file": "music-monsters/caiyilin-ri-bu-luo.mp3",
+    "start": 58,
+    "duration": 20,
+    "sourceDuration": 226.47
+  },
+  {
+    "name": "jay-qing-tian",
+    "file": "music-monsters/jay-qing-tian.mp3",
+    "start": 30,
+    "duration": 20,
+    "sourceDuration": 269.75
+  },
+  {
+    "name": "linxize-hai-yu-ni",
+    "file": "music-monsters/linxize-hai-yu-ni.mp3",
+    "start": 122.0841385,
+    "duration": 20,
+    "sourceDuration": 264.17
+  },
+  {
+    "name": "guojing-aiqing-xunxi",
+    "file": "music-monsters/guojing-aiqing-xunxi.mp3",
+    "start": 70,
+    "duration": 20,
+    "sourceDuration": 280.68
+  },
+  {
+    "name": "wanglihong-ai-cuo",
+    "file": "music-monsters/wanglihong-ai-cuo.mp3",
+    "start": 65,
+    "duration": 20,
+    "sourceDuration": 238.83
+  },
+  {
+    "name": "li-jiawei-jia-yi-bing-ding",
+    "file": "music-monsters/li-jiawei-jia-yi-bing-ding.mp3",
+    "start": 101,
+    "duration": 20,
+    "sourceDuration": 210.46
+  },
+  {
+    "name": "wangyanwei-li-kai-wo-de-yi-lai",
+    "file": "music-monsters/wangyanwei-li-kai-wo-de-yi-lai.mp3",
+    "start": 92,
+    "duration": 20,
+    "sourceDuration": 233.88
+  },
+  {
+    "name": "jay-dao-xiang",
+    "file": "music-monsters/jay-dao-xiang.mp3",
+    "start": 54,
+    "duration": 20,
+    "sourceDuration": 223.45
+  },
+  {
+    "name": "feifei-57-ci-qu-xiao-fa-song",
+    "file": "music-monsters/feifei-57-ci-qu-xiao-fa-song.mp3",
+    "start": 67.810068,
+    "duration": 20,
+    "sourceDuration": 155.62
+  },
+  {
+    "name": "jay-hong-chen-ke-zhan",
+    "file": "music-monsters/jay-hong-chen-ke-zhan.mp3",
+    "start": 77,
+    "duration": 20,
+    "sourceDuration": 274.07
+  },
+  {
+    "name": "jay-hua-hai",
+    "file": "music-monsters/jay-hua-hai.mp3",
+    "start": 57,
+    "duration": 20,
+    "sourceDuration": 264.6
+  },
+  {
+    "name": "jay-shuo-le-zai-jian",
+    "file": "music-monsters/jay-shuo-le-zai-jian.mp3",
+    "start": 62,
+    "duration": 20,
+    "sourceDuration": 282.83
+  },
+  {
+    "name": "kelou-ge-an",
+    "file": "music-monsters/kelou-ge-an.mp3",
+    "start": 67,
+    "duration": 20,
+    "sourceDuration": 240.0
+  },
+  {
+    "name": "yangchenglin-yu-ai",
+    "file": "music-monsters/yangchenglin-yu-ai.mp3",
+    "start": 69,
+    "duration": 20,
+    "sourceDuration": 260.48
+  },
+  {
+    "name": "jay-qing-hua-ci",
+    "file": "music-monsters/jay-qing-hua-ci.mp3",
+    "start": 57,
+    "duration": 20,
+    "sourceDuration": 239.01
+  },
+  {
+    "name": "zhengrunze-shun",
+    "file": "music-monsters/zhengrunze-shun.mp3",
+    "start": 100,
+    "duration": 20
+  },
+  {
+    "name": "xusong-tian-long-ba-bu-zhi-su-di",
+    "file": "music-monsters/xusong-tian-long-ba-bu-zhi-su-di.mp3",
+    "start": 76,
+    "duration": 20
+  }
+]

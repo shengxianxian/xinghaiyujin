@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VOID RUNNER 视频兼容性测试</title>
+    <style>
+      :root { color-scheme: dark; }
+      html, body { margin: 0; min-height: 100%; background: #101418; color: #eaf6f1; font: 14px system-ui, sans-serif; }
+      main { width: min(960px, 100%); margin: 0 auto; padding: 24px; box-sizing: border-box; }
+      h1 { font-size: 20px; margin: 0 0 16px; }
+      video { display: block; width: 100%; background: #000; border: 1px solid #48615d; }
+      pre { white-space: pre-wrap; line-height: 1.6; color: #9de9c8; }
+      button { padding: 8px 14px; margin: 12px 8px 0 0; cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>结算视频独立测试（H.264 / AAC）</h1>
+      <video id="video" src="assets/video/xiaoyan-compatible.mp4" controls playsinline preload="auto" autoplay></video>
+      <button id="play">播放</button><button id="pause">暂停</button>
+      <pre id="debug">等待视频元数据...</pre>
+    </main>
+    <script>
+      const video = document.getElementById("video");
+      const debug = document.getElementById("debug");
+      const events = ["loadedmetadata", "loadeddata", "canplay", "playing", "error"];
+      const status = { events: [] };
+      function update(eventName) {
+        if (eventName) status.events.push(`${new Date().toISOString()} ${eventName}`);
+        const error = video.error;
+        debug.textContent = [
+          `currentSrc: ${video.currentSrc}`,
+          `videoWidth: ${video.videoWidth}`,
+          `videoHeight: ${video.videoHeight}`,
+          `readyState: ${video.readyState}`,
+          `networkState: ${video.networkState}`,
+          `currentTime: ${video.currentTime.toFixed(3)} / ${Number.isFinite(video.duration) ? video.duration.toFixed(3) : "?"}`,
+          `paused: ${video.paused}`,
+          `error: ${error ? `${error.code} ${error.message || ""}` : "none"}`,
+          "events:",
+          ...status.events.slice(-12),
+        ].join("\n");
+      }
+      events.forEach((name) => video.addEventListener(name, () => update(name)));
+      video.addEventListener("timeupdate", () => update());
+      document.getElementById("play").onclick = () => video.play().catch((error) => { status.events.push(`play rejected: ${error.message}`); update(); });
+      document.getElementById("pause").onclick = () => video.pause();
+      update();
+    </script>
+  </body>
+</html>
